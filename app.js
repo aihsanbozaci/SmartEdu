@@ -1,23 +1,15 @@
 const express = require ('express');
+const pageRoute = require('./routes/pageRoute');
 const app = express();
 
+//Template Engine
+app.set("view engine","ejs");
 
-app.get('/', (req,res) => {
-    res.send('INDEX');
-});
+//Middlewares
+app.use(express.static("public"));
 
-
-
-
-
-
-
-
-
-
-
-
-
+//ROUTE
+app.use('/', pageRoute);
 
 
 
