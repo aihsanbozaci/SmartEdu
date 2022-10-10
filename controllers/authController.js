@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+
 //User Create
 exports.createUser = async (req, res) => {
   try {
@@ -22,9 +23,11 @@ exports.loginUser = async (req, res) => {
 
     await User.findOne({ email: email }, (err, user) => {
       if (user) {
-         bcrypt.compare(password, user.password, (err, login) => {
+        bcrypt.compare(password, user.password, (err, login) => {
           if (login) {
-             res.status(200).send("You are logged in!");
+            //User Session
+            req.session.userID = user.email;
+            res.status(200).redirect("/");
           }
         });
       }
@@ -35,4 +38,10 @@ exports.loginUser = async (req, res) => {
       error,
     });
   }
+};
+
+exports.logoutUser = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 };
