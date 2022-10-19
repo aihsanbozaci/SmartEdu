@@ -26,7 +26,7 @@ const CourseSchema = new Schema({
     ref: "Category",
   },
   user: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
 });

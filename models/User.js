@@ -23,9 +23,13 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["Student", "Teacher", "admin","Admin"],
+    enum: ["Student", "Teacher", "admin"],
     default: "Student",
   },
+  courses:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Course'
+  }]
 });
 //password crypt
 UserSchema.pre("save", function (next) {
@@ -34,6 +38,7 @@ UserSchema.pre("save", function (next) {
     user.password = hash;
     next();
   });
+  if (!this.isModified('password')) return next();
   if(user.role==='Admin','admin')(res)=>{
     return res.status(401).send('You are not allowed to access!');
   };
