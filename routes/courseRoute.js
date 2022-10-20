@@ -9,4 +9,5 @@ router.route('/').get(courseController.getAllCourses);
 router.route('/:slug').get(courseController.getCourse);
 router.route('/').post(roleMiddleware(["teacher","admin"]), courseController.createCourse); //admin and teachers can create courses
 router.route('/enroll').post(courseController.enrollCourse);
+router.route('/release').post(courseController.releaseCourse);
 module.exports = router;
