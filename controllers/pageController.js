@@ -23,41 +23,32 @@ exports.getContactPage = (req, res) => {
 //sendEmail
 const nodemailer = require("nodemailer");
 exports.sendEmail = async (req, res) => {
-  //console.log(req.body);
   const outputMessage = `
   <h1>Mail Details </h1>
   <ul> 
     <li>Name: ${req.body.name} </li>  
     <li>Email: ${req.body.email}</li>  
   </ul>
-  <h1>Message<h1>
+  <h1>Message</h1>
   <p> ${req.body.message} </p>  
   `
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
     auth: {
-      user: "ahmetbozac@gmail.com", // gmail account
-      pass: "cbrsrpttzqfqprws", // gmail password
-    },
-  });
-
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"SmartEDU Contact Form 👻" <ahmetbozac@gmail.com>', // sender address
-    to: "rohleder00@yandex.com", // list of receivers
-    subject: "Message From SmartEDU✔", // Subject line
-    //text: "Hello world?", // plain text body
-    html: outputMessage, // html body
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
- 
+        user: 'louie.fisher42@ethereal.email',
+        pass: 'aJbRMK4KVNa7vppQKr'
+    }
+});
+  async function run(){
+    let sendResult = await transporter.sendMail({
+      from: 'SmartEDU <message@smartedu.com>',
+      to: 'ahmetbozac@gmail.com',
+      subject:'Message From SmartEDU 📬',
+      html: outputMessage
+    })
+    console.log(sendResult)
+  }
+run().catch(err=> console.error(err))
 res.status(200).redirect('/contact')
 };
