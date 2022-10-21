@@ -7,7 +7,9 @@ const categoryRoute = require("./routes/categoryRoute");
 const userRoute = require("./routes/userRoute");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const flash = require('connect-flash');
+const flash = require("connect-flash");
+const methodOverride = require("method-override");
+
 const app = express();
 
 //Connect DB
@@ -42,10 +44,15 @@ app.use("*", (req, res, next) => {
   next();
 });
 app.use(flash());
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
   res.locals.flashMessages = req.flash(); //local variable for flash messages
   next();
-})
+});
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 //ROUTE
 app.use("/", pageRoute);
 app.use("/courses", courseRoute);
