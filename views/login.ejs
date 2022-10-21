@@ -84,6 +84,13 @@
         <form name="contactform" method="POST" action="users/login">
           <!-- Email input -->
           <div class="mb-6">
+            <% if (flashMessages){ %> 
+              <% if (flashMessages.success){ %> 
+                  <div class="alert alert-success"><%= flashMessages.success %> </div>
+              <% } else if (flashMessages.error){ %> 
+                      <div class="alert alert-danger"><%= flashMessages.error %> </div>
+                  <% } %> 
+          <% } %> 
             <label class="px-2 py-2 text-xl font-normal">Email</label>
             <input
               type="email" name="email" id="email"

@@ -23,6 +23,7 @@ exports.getContactPage = (req, res) => {
 //sendEmail
 const nodemailer = require("nodemailer");
 exports.sendEmail = async (req, res) => {
+  try{
   const outputMessage = `
   <h1>Mail Details </h1>
   <ul> 
@@ -40,7 +41,7 @@ exports.sendEmail = async (req, res) => {
         pass: 'aJbRMK4KVNa7vppQKr'
     }
 });
-  async function run(){
+
     let sendResult = await transporter.sendMail({
       from: 'SmartEDU <message@smartedu.com>',
       to: 'ahmetbozac@gmail.com',
@@ -48,7 +49,13 @@ exports.sendEmail = async (req, res) => {
       html: outputMessage
     })
     console.log(sendResult)
-  }
-run().catch(err=> console.error(err))
+  
+req.flash("success","We received your message successfully!");
 res.status(200).redirect('/contact')
+}
+catch(err){
+ // req.flash("error", `We did not receive your message! ||  ${err}`);
+  req.flash("error", `We did not receive your message!`);
+  res.status(200).redirect('/contact')
+}
 };
