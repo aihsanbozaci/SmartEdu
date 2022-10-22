@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const Category = require("../models/Category");
 const Courses = require("../models/Course");
+const Course = require("../models/Course");
 
 //User Create
 exports.createUser = async (req, res) => {
@@ -65,10 +66,28 @@ exports.getDashboardPage = async (req, res) => {
   );
   const categories = await Category.find();
   const courses = await Courses.find({ user: req.session.userID });
+  const users = await User.find();
   res.status(200).render("dashboard", {
     page_name: "dashboard",
     user,
     categories,
     courses,
+    users
   });
+};
+//delete users
+exports.deleteUser = async (req, res) => {
+  try {    
+
+    await User.findByIdAndRemove(req.params.id)
+    await Course.deleteMany({user:req.params.id})
+
+    res.status(200).redirect('/users/dashboard');
+
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
 };
