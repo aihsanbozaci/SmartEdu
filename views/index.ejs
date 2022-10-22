@@ -87,9 +87,11 @@
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="message-box">
 						<h1 class="h1">Our Latest Course</h1>
+						<% if(courses[0]) { %> 
                         <h2><%= courses[0].name %></h2>
                         <p><%= courses[0].description %></p>
                         <a href="/courses/<%= courses[0].slug %>" class="hover-btn-new orange"><span>Learn More</span></a>
+						<% } %>
                     </div><!-- end messagebox -->
                 </div><!-- end col -->
 				
